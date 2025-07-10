@@ -1,0 +1,51 @@
+<div class="log">
+  <img src="img/vg.png" alt="Logo" />
+</div>
+
+<div class="contenedor">
+  <h1>Sistema de Gestión de Estudiantes</h1>
+  <p>Administra la información de los estudiantes de manera eficiente.</p>
+
+  <div class="contenedores">
+    <div class="contenedor1">
+      <h2>Total de Estudiantes</h2>
+      <i class="fa-solid fa-users"></i>
+      <p class="total">Total: {{ totalEstudiantes }}</p>
+    </div>
+
+    <div class="contenedor2">
+      <h2>Estudiantes Activos</h2>
+      <i class="fa-solid fa-circle-check"></i>
+      <p class="total">Activos: {{ estudiantesActivos }}</p>
+    </div>
+
+    <div class="contenedor3">
+      <h2>Estudiantes Inactivos</h2>
+      <i class="fa-solid fa-user-slash"></i>
+      <p class="total">Inactivos: {{ estudiantesInactivos }}</p>
+    </div>
+  </div>
+
+  <button class="btn-agregar" (click)="abrirFormulario()">Agregar Estudiante</button>
+
+  <div class="InputContainer">
+    <input
+      placeholder="DNI del estudiante"
+      [(ngModel)]="filtroBusqueda"
+      (input)="filtrarEstudiantes()"
+      id="busqueda"
+      class="input"
+      name="text"
+      type="text"
+    />
+    <label class="labelforsearch" for="input">
+      <svg class="searchIcon" viewBox="0 0 512 512">
+        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 
+             0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 
+             416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 
+             1 0 0-288 144 144 0 1 0 0 288z"></path>
+      </svg>
+    </label>
+  </div>
+</div>
+<app-student-form *ngIf="mostrarFormulario" (close)="cerrarFormulario()"></app-student-form>
