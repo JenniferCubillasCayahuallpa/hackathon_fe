@@ -1,6 +1,6 @@
 export interface Student {
-  studentID?: string;
-  dni: string;
+  studentID?: number;
+  dni: number;
   name: string;
   lastName: string;
   fechaNacimiento: Date;
@@ -8,8 +8,8 @@ export interface Student {
   phone: string;
   address: string;
   genero: 'M' | 'F';
-  programaID: number;
-  ubicacionID: number; 
+  programaID: string;
+  ubicacionID: string;
   fechaRegistro?: Date;
   estado?: 'Activo' | 'Inactivo';
 }
