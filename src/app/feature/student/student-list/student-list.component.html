@@ -1,11 +1,9 @@
 <div class="log">
   <img src="img/vg.png" alt="Logo" />
 </div>
-
 <div class="contenedor">
   <h1>Sistema de Gestión de Estudiantes</h1>
   <p>Administra la información de los estudiantes de manera eficiente.</p>
-
   <div class="contenedores">
     <div class="contenedor1">
       <h2>Total de Estudiantes</h2>
@@ -37,6 +35,11 @@
       class="input"
       name="text"
       type="text"
+      autocomplete="off"
+      maxlength="8"
+      #nationalID="ngModel"
+      (keypress)="permitirSoloNumeros($event)"
+      pattern="^[0-9]{8}$"
     />
     <label class="labelforsearch" for="input">
       <svg class="searchIcon" viewBox="0 0 512 512">
@@ -46,6 +49,47 @@
              1 0 0-288 144 144 0 1 0 0 288z"></path>
       </svg>
     </label>
+  </div>
+  <div class="tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>DNI</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Fecha de Nac.</th>
+          <th>Correo</th>
+          <th>Teléfono</th>
+          <th>Dirección</th>
+          <th>Género</th>
+          <th>Carrera</th>
+          <th>Ubicación</th>
+          <th>Fecha de Reg.</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let estudiante of estudiantesFiltrados">
+          <td>{{ estudiante.studentID }}</td>
+          <td>{{ estudiante.dni }}</td>
+          <td>{{ estudiante.name }}</td>
+          <td>{{ estudiante.lastName }}</td>
+          <td>{{ estudiante.fechaNacimiento }}</td>
+          <td>{{ estudiante.email }}</td>
+          <td>{{ estudiante.phone }}</td>
+          <td>{{ estudiante.address }}</td>
+          <td>{{ estudiante.genero }}</td>
+          <td>{{ estudiante.programa }}</td>
+          <td>{{ estudiante.departamento }}, {{ estudiante.provincia }}, {{ estudiante.distrito }}</td>
+          <td>{{ estudiante.fechaRegistro }}</td>
+          <td>{{ estudiante.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="boot">
+    <button class="btn" (click)="generarReporte()">Reporte Estudiantes</button>
   </div>
 </div>
 <app-student-form *ngIf="mostrarFormulario" (close)="cerrarFormulario()"></app-student-form>

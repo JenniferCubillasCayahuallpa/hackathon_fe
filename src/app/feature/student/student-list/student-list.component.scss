@@ -135,7 +135,7 @@ p{
 
 .InputContainer {
   height: 40px;
-  margin-left: 600px;
+  margin-left: 880px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,6 +195,47 @@ p{
 .micButton:hover {
   background-color: rgb(255, 230, 230);
   transition-duration: 0.3s;
+}
+
+.tabla{
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #333;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tabla th, .tabla td {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla th {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f2f2f2;
+  color: #172561;
+}
+
+.btn{
+  background-color: #172561;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 20px;
+  margin-right: 990px;
+}
+
+.btn:hover{
+  transition: background-color 0.3s ease;
+  background-color: #666666f8;
+  color: #ffffff;
 }
 
 

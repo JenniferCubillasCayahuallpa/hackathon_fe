@@ -1,15 +1,15 @@
 export interface Student {
-  studentID?: string; 
-  nationalID: string; 
-  firstName: string;
+  studentID?: string;
+  dni: string;
+  name: string;
   lastName: string;
-  birthDate: Date;
-  email?: string;
-  phone?: string; 
-  address?: string;
-  gender: 'M' | 'F'; 
-  registrationDate?: Date; 
-  status?: boolean;
-  locationID: number;
-  programID: number;
+  fechaNacimiento: Date;
+  email: string;
+  phone: string;
+  address: string;
+  genero: 'M' | 'F';
+  programaID: number;
+  ubicacionID: number; 
+  fechaRegistro?: Date;
+  estado?: 'Activo' | 'Inactivo';
 }
