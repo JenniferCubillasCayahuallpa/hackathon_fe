@@ -1,15 +1,17 @@
+import { Program } from "./program";
+import { Location } from "./location";
+
 export interface Student {
-  studentID?: number;
-  dni: number;
-  name: string;
+  id?: number; 
+  dni: string;
+  firstName: string;
   lastName: string;
-  fechaNacimiento: Date;
+  birthDate: string;
+  gender: 'M' | 'F';
   email: string;
   phone: string;
   address: string;
-  genero: 'M' | 'F';
-  programaID: string;
-  ubicacionID: string;
-  fechaRegistro?: Date;
-  estado?: 'Activo' | 'Inactivo';
+  status?: 'A' | 'I';
+  programId: number;
+  locationId: number;
 }

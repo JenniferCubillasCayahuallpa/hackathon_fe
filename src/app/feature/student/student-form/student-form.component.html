@@ -1,170 +1,108 @@
 <div class="modal-backdrop" (click)="cerrarFormulario()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <button class="close-btn" (click)="cerrarFormulario()">✖</button>
-<form (ngSubmit)="onSubmit()" #studentForm="ngForm" novalidate>
-  <h2>Formulario del Estudiante</h2>
+    <form (ngSubmit)="onSubmit()" #studentFormRef="ngForm" novalidate>
+      <h2>{{ modoEdicion ? 'Editar Estudiante' : 'Formulario del Estudiante' }}</h2>
 
-  <div class="form-group">
-    <label for="nationalID">DNI:</label>
-    <input
-      id="nationalID"
-      type="text"
-      name="nationalID"
-      [(ngModel)]="student.nationalID"
-      required
-      maxlength="8"
-      #nationalID="ngModel"
-      (keypress)="permitirSoloNumeros($event)"
-      pattern="^[0-9]{8}$"
-    />
-    <div *ngIf="nationalID.invalid && nationalID.touched" class="error">
-      DNI es obligatorio y máximo 8 caracteres.
-    </div>
+      <div class="form-group">
+        <label for="dni">DNI:</label>
+        <input id="dni" type="text" name="dni" [(ngModel)]="studentForm.dni" required maxlength="8" #dni="ngModel"
+          (keypress)="permitirSoloNumeros($event)" pattern="^[0-9]{8}$" />
+        <div *ngIf="dni.invalid && dni.touched" class="error">
+          DNI es obligatorio y máximo 8 caracteres.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">Nombres:</label>
+        <input id="firstName" type="text" name="firstName" [(ngModel)]="studentForm.firstName" required
+          #firstName="ngModel" />
+        <div *ngIf="firstName.invalid && firstName.touched" class="error">
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Apellidos:</label>
+        <input id="lastName" type="text" name="lastName" [(ngModel)]="studentForm.lastName" required
+          #lastName="ngModel" />
+        <div *ngIf="lastName.invalid && lastName.touched" class="error">
+          El apellido es obligatorio.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="birthDate">Fecha de Nacimiento:</label>
+        <input id="birthDate" type="date" name="birthDate" [(ngModel)]="studentForm.birthDate" required
+          #birthDate="ngModel" />
+        <div *ngIf="birthDate.invalid && birthDate.touched" class="error">
+          La fecha de nacimiento es obligatoria.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Género:</label>
+        <select id="gender" name="gender" [(ngModel)]="studentForm.gender" required #gender="ngModel">
+          <option value="" disabled>Seleccione...</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+        </select>
+        <div *ngIf="gender.invalid && gender.touched" class="error">
+          El género es obligatorio.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Correo:</label>
+        <input id="email" type="email" name="email" [(ngModel)]="studentForm.email" #email="ngModel" />
+        <div *ngIf="email.invalid && email.touched" class="error">
+          Introduce un email válido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Celular:</label>
+        <input id="phone" type="text" name="phone" [(ngModel)]="studentForm.phone" maxlength="9" #phone="ngModel"
+          pattern="^[0-9]{9}$" (keypress)="permitirSoloNumeros($event)" required />
+        <div *ngIf="phone.invalid && phone.touched" class="error">
+          Teléfono debe tener 9 dígitos numéricos.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Dirección:</label>
+        <input id="address" type="text" name="address" [(ngModel)]="studentForm.address" />
+      </div>
+
+      <div class="form-group">
+        <label for="programId">Programa:</label>
+        <select id="programId" name="programId" [(ngModel)]="studentForm.programId" required #programId="ngModel">
+          <option [ngValue]="null" disabled>Seleccione programa...</option>
+          <option *ngFor="let p of programs" [ngValue]="p.id">
+            {{ p.programName }}
+          </option>
+        </select>
+        <div *ngIf="programId.invalid && programId.touched" class="error">
+          El programa es obligatorio.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="locationId">Ubicación:</label>
+        <select id="locationId" name="locationId" [(ngModel)]="studentForm.locationId" required #locationId="ngModel">
+          <option [ngValue]="null" disabled>Seleccione ubicación...</option>
+          <option *ngFor="let l of locations" [ngValue]="l.id">
+            {{ l.department }} - {{ l.province }} - {{ l.district }}
+          </option>
+        </select>
+        <div *ngIf="locationId.invalid && locationId.touched" class="error">
+          La ubicación es obligatoria.
+        </div>
+      </div>
+
+      <button class="sav" type="submit" [disabled]="!isFormValid()">
+        {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+    </form>
   </div>
-
-  <div class="form-group">
-    <label for="firstName">Nombres:</label>
-    <input
-      id="firstName"
-      type="text"
-      name="firstName"
-      [(ngModel)]="student.firstName"
-      required
-      #firstName="ngModel"
-    />
-    <div *ngIf="firstName.invalid && firstName.touched" class="error">
-      El nombre es obligatorio.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="lastName">Apellidos:</label>
-    <input
-      id="lastName"
-      type="text"
-      name="lastName"
-      [(ngModel)]="student.lastName"
-      required
-      #lastName="ngModel"
-    />
-    <div *ngIf="lastName.invalid && lastName.touched" class="error">
-      El apellido es obligatorio.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="birthDate">Fecha de Nacimiento:</label>
-    <input
-      id="birthDate"
-      type="date"
-      name="birthDate"
-      [(ngModel)]="student.birthDate"
-      required
-      #birthDate="ngModel"
-    />
-    <div *ngIf="birthDate.invalid && birthDate.touched" class="error">
-      La fecha de nacimiento es obligatoria.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="gender">Género:</label>
-    <select
-      id="gender"
-      name="gender"
-      [(ngModel)]="student.gender"
-      required
-      #gender="ngModel"
-    >
-      <option value="" disabled selected>Seleccione...</option>
-      <option value="M">Masculino</option>
-      <option value="F">Femenino</option>
-    </select>
-    <div *ngIf="gender.invalid && gender.touched" class="error">
-      El género es obligatorio.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="email">Correo:</label>
-    <input
-      id="email"
-      type="email"
-      name="email"
-      [(ngModel)]="student.email"
-      #email="ngModel"
-      email
-    />
-    <div *ngIf="email.invalid && email.touched" class="error">
-      Introduce un email válido.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="phone">Celular:</label>
-    <input
-      id="phone"
-      type="text"
-      name="phone"
-      [(ngModel)]="student.phone"
-      maxlength="9"
-      #phone="ngModel"
-      pattern="^[0-9]{9}$"
-      (keypress)="permitirSoloNumeros($event)"
-      required
-    />
-    <div *ngIf="phone.invalid && phone.touched" class="error">
-      Teléfono debe tener 9 dígitos numéricos.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="address">Dirección:</label>
-    <input
-      id="address"
-      type="text"
-      name="address"
-      [(ngModel)]="student.address"
-    />
-  </div>
-
-  <div class="form-group">
-    <label for="programID">Programa:</label>
-    <select
-      id="programID"
-      name="programID"
-      [(ngModel)]="student.programID"
-      required
-      #programID="ngModel"
-    >
-      <option value="" disabled selected>Seleccione programa...</option>
-      <option *ngFor="let p of programs" [value]="p.programID">
-        {{ p.programName }}
-      </option>
-    </select>
-    <div *ngIf="programID.invalid && programID.touched" class="error">
-      El programa es obligatorio.
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="locationID">Ubicación:</label>
-    <select
-      id="locationID"
-      name="locationID"
-      [(ngModel)]="student.locationID"
-      required
-      #locationID="ngModel"
-    >
-      <option value="" disabled selected>Seleccione ubicación...</option>
-      <option *ngFor="let l of locations" [value]="l.locationID">
-        {{ l.department }} - {{ l.province }} - {{ l.district }}
-      </option>
-    </select>
-    <div *ngIf="locationID.invalid && locationID.touched" class="error">
-      La ubicación es obligatoria.
-    </div>
-  </div>
-
-  <button class="sav" type="submit" [disabled]="!isFormValid()">Guardar</button>
-</form>
+</div>

@@ -10,51 +10,48 @@
       <i class="fa-solid fa-users"></i>
       <p class="total">Total: {{ totalEstudiantes }}</p>
     </div>
-
     <div class="contenedor2">
       <h2>Estudiantes Activos</h2>
       <i class="fa-solid fa-circle-check"></i>
       <p class="total">Activos: {{ estudiantesActivos }}</p>
     </div>
-
     <div class="contenedor3">
       <h2>Estudiantes Inactivos</h2>
       <i class="fa-solid fa-user-slash"></i>
       <p class="total">Inactivos: {{ estudiantesInactivos }}</p>
     </div>
   </div>
-
   <button class="btn-agregar" (click)="abrirFormulario()">Agregar Estudiante</button>
 
-  <div class="InputContainer">
-    <input
-      placeholder="DNI del estudiante"
-      [(ngModel)]="filtroBusqueda"
-      (input)="filtrarEstudiantes()"
-      id="busqueda"
-      class="input"
-      name="text"
-      type="text"
-      autocomplete="off"
-      maxlength="8"
-      #nationalID="ngModel"
-      (keypress)="permitirSoloNumeros($event)"
-      pattern="^[0-9]{8}$"
-    />
-    <label class="labelforsearch" for="input">
-      <svg class="searchIcon" viewBox="0 0 512 512">
-        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 
-             0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 
-             416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 
-             1 0 0-288 144 144 0 1 0 0 288z"></path>
-      </svg>
-    </label>
+  <!-- BUSCADOR Y TOGGLE -->
+  <div class="buscador-toggle-row">
+    <div class="InputContainer">
+      <input placeholder="Buscar estudiante" [(ngModel)]="filtroBusqueda" (input)="filtrarEstudiantes()" id="busqueda"
+        class="input" name="text" type="text" autocomplete="off" maxlength="60" />
+      <label class="labelforsearch" for="input">
+        <svg class="searchIcon" viewBox="0 0 512 512">
+          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 
+               0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 
+               416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 
+               1 0 0-288 144 144 0 1 0 0 288z"></path>
+        </svg>
+      </label>
+    </div>
+    <div class="switch-toggle-container">
+      <label class="switch">
+        <input type="checkbox" [checked]="!mostrarActivos" (change)="alternarListado()" />
+        <span class="slider"></span>
+      </label>
+      <span class="switch-label">
+        {{ mostrarActivos ? 'Ver inactivos' : 'Ver activos' }}
+      </span>
+    </div>
   </div>
+
   <div class="tabla">
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>DNI</th>
           <th>Nombre</th>
           <th>Apellido</th>
@@ -65,31 +62,38 @@
           <th>Género</th>
           <th>Carrera</th>
           <th>Ubicación</th>
-          <th>Fecha de Reg.</th>
-          <th>Estado</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let estudiante of estudiantesFiltrados">
-          <td>{{ estudiante.studentID }}</td>
           <td>{{ estudiante.dni }}</td>
-          <td>{{ estudiante.name }}</td>
+          <td>{{ estudiante.firstName }}</td>
           <td>{{ estudiante.lastName }}</td>
-          <td>{{ estudiante.fechaNacimiento }}</td>
+          <td>{{ estudiante.birthDate | fechaCorta }}</td>
           <td>{{ estudiante.email }}</td>
           <td>{{ estudiante.phone }}</td>
           <td>{{ estudiante.address }}</td>
-          <td>{{ estudiante.genero }}</td>
-          <td>{{ estudiante.programa }}</td>
-          <td>{{ estudiante.departamento }}, {{ estudiante.provincia }}, {{ estudiante.distrito }}</td>
-          <td>{{ estudiante.fechaRegistro }}</td>
-          <td>{{ estudiante.estado }}</td>
+          <td>{{ estudiante.gender === 'M' ? 'Masculino' : 'Femenino' }}</td>
+          <td>{{ getNombrePrograma(estudiante.programId) }}</td>
+          <td>{{ getNombreUbicacion(estudiante.locationId) }}</td>
+          <td>
+            <ng-container *ngIf="mostrarActivos; else accionesInactivos">
+              <button (click)="editarEstudiante(estudiante)" title="Editar"><i class="fa fa-edit"></i></button>
+              <button (click)="eliminarEstudiante(estudiante)" title="Eliminar"><i class="fa fa-trash"></i></button>
+            </ng-container>
+            <ng-template #accionesInactivos>
+              <button (click)="restaurarEstudiante(estudiante)" title="Restaurar"><i class="fa fa-undo"></i></button>
+            </ng-template>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="boot">
+<div class="boot">
     <button class="btn" (click)="generarReporte()">Reporte Estudiantes</button>
   </div>
+  <app-student-form *ngIf="mostrarFormulario" [student]="estudianteEditando" [programs]="programas"
+    [locations]="locations" (close)="cerrarFormulario()" (guardar)="onGuardarEstudiante($event)">
+  </app-student-form>
 </div>
-<app-student-form *ngIf="mostrarFormulario" (close)="cerrarFormulario()"></app-student-form>
