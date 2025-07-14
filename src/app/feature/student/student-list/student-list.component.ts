@@ -41,6 +41,7 @@ export class StudentListComponent implements OnInit {
   ngOnInit(): void {
     this.programService.getAll().subscribe(data => this.programas = data);
     this.locationService.getAll().subscribe(data => this.locations = data);
+    // Cargar estudiantes activos por defecto
     this.loadActiveStudents();
   }
 
@@ -152,7 +153,8 @@ export class StudentListComponent implements OnInit {
         (e.gender && (e.gender === 'M' ? 'masculino' : 'femenino').includes(filtro)) ||
         this.getNombrePrograma(e.programId).toLowerCase().includes(filtro) ||
         this.getNombreUbicacion(e.locationId).toLowerCase().includes(filtro) ||
-        (e.birthDate && e.birthDate.toString().includes(filtro))
+        (e.birthDate && e.birthDate.toString().includes(filtro)) ||
+        (e.registrationDate && e.registrationDate.toString().includes(filtro))
       );
     });
   }

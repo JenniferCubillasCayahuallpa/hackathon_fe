@@ -11,6 +11,7 @@ export interface Student {
   email: string;
   phone: string;
   address: string;
+  registrationDate?: string;
   status?: 'A' | 'I';
   programId: number;
   locationId: number;

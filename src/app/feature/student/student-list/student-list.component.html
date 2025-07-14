@@ -39,7 +39,7 @@
     </div>
     <div class="switch-toggle-container">
       <label class="switch">
-        <input type="checkbox" [checked]="!mostrarActivos" (change)="alternarListado()" />
+      <input type="checkbox" [(ngModel)]="mostrarActivos" (change)="filtrarEstudiantes()" />
         <span class="slider"></span>
       </label>
       <span class="switch-label">
@@ -62,6 +62,7 @@
           <th>Género</th>
           <th>Carrera</th>
           <th>Ubicación</th>
+          <th>Fecha de Reg.</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -77,6 +78,7 @@
           <td>{{ estudiante.gender === 'M' ? 'Masculino' : 'Femenino' }}</td>
           <td>{{ getNombrePrograma(estudiante.programId) }}</td>
           <td>{{ getNombreUbicacion(estudiante.locationId) }}</td>
+          <td>{{ estudiante.registrationDate | fechaCorta }}</td>
           <td>
             <ng-container *ngIf="mostrarActivos; else accionesInactivos">
               <button (click)="editarEstudiante(estudiante)" title="Editar"><i class="fa fa-edit"></i></button>
@@ -90,7 +92,7 @@
       </tbody>
     </table>
   </div>
-<div class="boot">
+  <div class="boot">
     <button class="btn" (click)="generarReporte()">Reporte Estudiantes</button>
   </div>
   <app-student-form *ngIf="mostrarFormulario" [student]="estudianteEditando" [programs]="programas"

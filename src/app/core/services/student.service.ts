@@ -7,7 +7,7 @@ import { Student } from '../interfaces/student';
   providedIn: 'root'
 })
 export class StudentService {
-  private baseUrl = 'https://silver-system-v66jv9vjg57j3p6qr-8080.app.github.dev/v1/api/student'; 
+  private baseUrl = 'https://verbose-barnacle-5gg7qjq7457vf455g-8080.app.github.dev/v1/api/student'; 
 
   constructor(private http: HttpClient) {}
 
